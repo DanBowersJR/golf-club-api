@@ -34,6 +34,13 @@ public class TournamentController {
         return tournamentRepository.save(tournament);
     }
 
+    // ✅ Get a single tournament by ID
+    @GetMapping("/{id}")
+    public Tournament getTournamentById(@PathVariable Long id) {
+        return tournamentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tournament not found with ID: " + id));
+    }
+
     // ✅ Search tournaments by location
     @GetMapping("/search/byLocation")
     public List<Tournament> searchByLocation(@RequestParam String location) {
@@ -47,7 +54,7 @@ public class TournamentController {
         return tournamentRepository.findByStartDate(localDate);
     }
 
-    // ✅ Get tournament + members by ID
+    // ✅ Get all members participating in a tournament
     @GetMapping("/{id}/members")
     public List<Member> getTournamentMembers(@PathVariable Long id) {
         Tournament tournament = tournamentRepository.findTournamentWithMembers(id);

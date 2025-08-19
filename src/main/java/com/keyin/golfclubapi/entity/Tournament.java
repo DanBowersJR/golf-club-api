@@ -1,6 +1,6 @@
 package com.keyin.golfclubapi.entity;
 
-import jakarta.persistence.*;   // ✅ use jakarta, not javax
+import jakarta.persistence.*;   // ✅ use jakarta
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,9 +17,9 @@ public class Tournament {
     private LocalDate endDate;
     private String location;
     private double entryFee;
-    private double cashPrize;
+    private double cashPrizeAmount;
 
-    // 🔄 Relationship: One Tournament can have many Members
+    // 🔄 Participating Members
     @ManyToMany
     @JoinTable(
             name = "tournament_members",
@@ -32,12 +32,12 @@ public class Tournament {
     public Tournament() {
     }
 
-    public Tournament(LocalDate startDate, LocalDate endDate, String location, double entryFee, double cashPrize) {
+    public Tournament(LocalDate startDate, LocalDate endDate, String location, double entryFee, double cashPrizeAmount) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
         this.entryFee = entryFee;
-        this.cashPrize = cashPrize;
+        this.cashPrizeAmount = cashPrizeAmount;
     }
 
     // --- Getters and Setters ---
@@ -73,11 +73,11 @@ public class Tournament {
         this.entryFee = entryFee;
     }
 
-    public double getCashPrize() {
-        return cashPrize;
+    public double getCashPrizeAmount() {
+        return cashPrizeAmount;
     }
-    public void setCashPrize(double cashPrize) {
-        this.cashPrize = cashPrize;
+    public void setCashPrizeAmount(double cashPrizeAmount) {
+        this.cashPrizeAmount = cashPrizeAmount;
     }
 
     public Set<Member> getMembers() {

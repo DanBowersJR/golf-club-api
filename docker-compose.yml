@@ -1,7 +1,9 @@
+version: '3.8'
+
 services:
   app:
     build: .
-    container_name: golfclub-app
+    container_name: golfclub-api
     ports:
       - "8080:8080"
     depends_on:
@@ -16,17 +18,22 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: golfclub-db
+    container_name: golfclub-mysql
     restart: always
     environment:
       MYSQL_DATABASE: golfclub
       MYSQL_ROOT_PASSWORD: daniel1234
     ports:
-      - "3307:3306"  # ✅ Fix: use 3307 on your Mac, still 3306 inside Docker
+      - "3307:3306"
     command: --default-authentication-plugin=mysql_native_password
     networks:
       - golfnet
+    volumes:
+      - mysql_data:/var/lib/mysql
 
 networks:
   golfnet:
     driver: bridge
+
+volumes:
+  mysql_data:
