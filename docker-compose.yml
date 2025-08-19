@@ -1,22 +1,32 @@
-version: "3.8"
 services:
   app:
     build: .
+    container_name: golfclub-app
     ports:
       - "8080:8080"
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/golfclub
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/golfclub?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: daniel1234
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    networks:
+      - golfnet
 
   db:
     image: mysql:8.0
+    container_name: golfclub-db
     restart: always
     environment:
       MYSQL_DATABASE: golfclub
       MYSQL_ROOT_PASSWORD: daniel1234
     ports:
-      - "3306:3306"
+      - "3307:3306"  # ✅ Fix: use 3307 on your Mac, still 3306 inside Docker
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - golfnet
+
+networks:
+  golfnet:
+    driver: bridge
